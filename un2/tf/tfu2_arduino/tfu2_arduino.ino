@@ -17,12 +17,12 @@ int contador(int valorInicial, int rapidezConteo, double factorUD)
     Serial.print("Los parámetros deben ser valores positivos.");
     return 0;
   }
-  int resultado = 0;
+  int resultado = valorInicial;
 
   while (valorInicial >= 0)
   {
-   resultado = valorInicial + rapidezConteo * factorUD;
-   resultado += resultado;
+   //resultado = valorInicial;
+   resultado = resultado + rapidezConteo * factorUD;;
    delay(1000);      //Se agrega un retraso de 1 segundo
     Serial.print(String(resultado) + "\n");
     //return resultado;
