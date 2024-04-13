@@ -9,40 +9,34 @@ Descripción:
 
 En resumen, este código permite al usuario configurar y ejecutar un contador ascendente o descendente en función de los valores ingresados a través de la comunicación serial y muestra el progreso del contador en la consola serial. Además, verifica que los valores ingresados sean válidos (positivos) antes de ejecutar el contador.
 */
-
-String contador(int valorInicial, int rapidezConteo, double factorUD)
+// Declaración de función
+int contador(int valorInicial, int rapidezConteo, double factorUD)
 {
-  if (valorInicial < 0 || rapidezReduccion <= 0)
+  if (valorInicial < 0 || rapidezConteo <= 0)
   {
-    return "Los parámetros deben ser valores positivos.";
+    Serial.print("Los parámetros deben ser valores positivos.");
+    return 0;
   }
-
-  String resultado = "Contador ";
-
-  if (factorUD < 0)
-  {
-    resultado += "descendente ";
-  }
-  else
-  {
-    resultado += "ascendente ";
-  }
-  resultado += "Contador desde " + String(valorInicial) + " a una rapidez de " + String(rapidezConteo) + " por segundo\n";
+  int resultado = 0;
 
   while (valorInicial >= 0)
   {
-    resultado += String(valorInicial) + "\n";
-    valorInicial += rapidezConteo * factorUD;
-    delay(1000);      //Se agrega un retraso de 1 segundo
+   resultado = valorInicial + rapidezConteo * factorUD;
+   resultado += resultado;
+   delay(1000);      //Se agrega un retraso de 1 segundo
+    Serial.print(String(resultado) + "\n");
+    //return resultado;
   }
-
-  return resultado;
+Serial.print(String(resultado) + "\n");  
+return resultado;
 }
 
 
+// Programa principal
 void setup()
 {
   Serial.begin(9600);     //Se inicializa la comunicación serial
+  Serial.flush();
 }
 
 
@@ -51,18 +45,29 @@ void loop()
   int valorInicial, rapidezConteo;
   double factorUD;
 
-  Serial.print("Ingrese el valor inicial del contador: ");
+  delay(5000);
+  Serial.print("Ingrese el valor inicial del contador: \n" );
+  delay(1000);
   while (!Serial.available()) {}    //Espera hasta que se ingrese un valor
   valorInicial = Serial.parseInt(); //Lee el valor ingresado
+  Serial.print("El valor inicial del contador es" + String(valorInicial)+ "\n");
   
-  Serial.print("Ingrese la rapidez de reducción del contador: ");
+  Serial.print("Ingrese la rapidez de reducción del contador: \n");
+  delay(5000);
   while (!Serial.available()) {}    //Espera hasta que se ingrese un valor
   rapidezConteo = Serial.parseInt();  //Lee la rapidez ingresada
+  Serial.print("La rapidez de reducción del contador" + String(rapidezConteo)+ "\n");
 
-  Serial.print("Ingrese el factor: '-1' para descendente y '1' para ascendente): ");
+  
+  Serial.print("Ingrese el factor: '-1' para descendente y '1' para ascendente): \n");
+  delay(5000);
   while (!Serial.available()) {}    //Espera hasta que se ingrese un valor
   factorUD = Serial.parseFloat();   //Lee el factor ingresado
+  Serial.print("EL factor UD es" + String(factorUD)+ "\n");
 
-  String resultado = contador(valorInicial, rapidezConteo, factorUD);
+
+  
+  int resultado = contador(valorInicial, rapidezConteo, factorUD);
   Serial.println(resultado);
+  delay(5000);
 }
