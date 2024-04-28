@@ -20,7 +20,8 @@ void loop() {
   uint16_t result = adc_read();
   
   // Calculate voltage from ADC result
-  float voltage = result * (3.3f / (1 << 12));
+ // float voltage = result * (3.3f / (1 << 12));
+    float voltage = result * (3.3f / 4096);
 
   // Calculate temperature using the formula for RP2040
   float temperature = 27 - (voltage - 0.706) / 0.001721;
